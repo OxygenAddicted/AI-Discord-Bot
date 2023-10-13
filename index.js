@@ -58,12 +58,15 @@ client.on("messageCreate", async (message) => {
         }
         });
 
+        // Remove emojis and unsupported characters
+        const sanitizedMessage = message.content.replace(/[\uD800-\uDFFF]./g, ''); 
+        
         // Now, let's handle the AI response part
         const input = {
             method: "GET",
             url: "https://google-bard1.p.rapidapi.com/",
             headers: {
-                text: message.content,
+                text: sanitizedMessage,
                 lang: "en",
                 psid: process.env['PSID'],
                 //Get this from Bard. Ctrl + Shift + I > application > Cookies > https://bard.google.com > __Secure-1PSID > copy the value.
