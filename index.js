@@ -23,7 +23,7 @@ const CHANNEL_ID = process.env['CHANNEL_ID'];
 client.on("messageCreate", async (message) => {
     if (message.author.bot) return;
     if (message.channel.id !== CHANNEL_ID) return; 
-    if (message.content.startsWith("//")) return;
+    if (!message.content.startsWith("s!tanya")) return;
 
     let conversationLog = [
         { role: 'system', content: 'You are a friendly chatbot.' },
@@ -35,7 +35,7 @@ client.on("messageCreate", async (message) => {
         let prevMessages = await message.channel.messages.fetch({ limit: 15 }); //The bot will retrieve the previous chat up to this limit in the channel.
 
         prevMessages.forEach((msg) => {
-        if (msg.content.startsWith("//")) return;
+        if (!msg.content.startsWith("s!tanya")) return;
         if (msg.author.id !== client.user.id && message.author.bot) return;
         if (msg.author.id === client.user.id) {
             conversationLog.push({
@@ -64,9 +64,9 @@ client.on("messageCreate", async (message) => {
         // Now, let's handle the AI response part
         const input = {
             method: "GET",
-            url: "https://google-bard1.p.rapidapi.com/",
+            url: "https://google-bard1.p.rapidapi.com/beta/lens/",
             headers: {
-                text: sanitizedMessage,
+                text: message.content,
                 lang: "en",
                 psid: process.env['PSID'],
                 //Get this from Bard. Ctrl + Shift + I > application > Cookies > https://bard.google.com > __Secure-1PSID > copy the value.
