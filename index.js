@@ -23,7 +23,7 @@ const CHANNEL_ID = process.env['CHANNEL_ID'];
 client.on("messageCreate", async (message) => {
     if (message.author.bot) return;
     if (message.channel.id !== CHANNEL_ID) return; 
-    if (!message.content.startsWith("s!tanya")) return;
+    if (!message.content.startsWith("s!tanya")) return; //Prefix to trigger the bot.
 
     let conversationLog = [
         { role: 'system', content: 'You are a friendly chatbot.' },
