@@ -12,19 +12,19 @@ module.exports = {
 
     async execute(interaction) {
 
+        await interaction.reply({ content: `*Main gitar di jalan raya. Tunggu bentar yaa...*`});
+
         const { options } = interaction;
         const prompt = options.getString('prompt');
 
         // Making the bot only accessible in the specific channel.
         if (interaction.channel.id !== CHANNEL_ID) {
-            return interaction.reply('The bot is not allowed to be used in this channel.');
+            return interaction.editReply('The bot is not allowed to be used in this channel.');
         }
 
         let conversationLog = [
             { role: 'system', content: 'You are a friendly chatbot.' },
         ];
-
-        await interaction.deferReply();
 
         try {
             // Make the bot read previous message in the channel up to the limit.
@@ -74,20 +74,23 @@ module.exports = {
                 const responseData = output.data.response;
                 const maxLength = 2000; // Discord has 2000 chars limit in a bubble.
 
-                // We will split them if the text has >2000 chars so the bot won't get error.
                 const responseChunks = [];
                 for (let i = 0; i < responseData.length; i += maxLength) {
-                    responseChunks.push(responseData.slice(i, i + maxLength));
+                    const chunk = responseData.substring(i, i + maxLength);
+                    responseChunks.push(chunk);
                 }
 
-                for (const chunk of responseChunks) {
-                    interaction.followUp(chunk);
+                if (responseChunks.length > 0) {
+                    await interaction.editReply(responseChunks[0]);
                 }
 
+                for (let i = 1; i < responseChunks.length; i++) {
+                    await interaction.followUp(responseChunks[i]);
+                }
             } catch (e) {
                 console.error('Error:', e);
                 return interaction.followUp({
-                    content: 'There was an error getting the response, please try again later.',
+                    content: 'Lagi error nih, dah lah.',
                 });
             }
         } catch (error) {

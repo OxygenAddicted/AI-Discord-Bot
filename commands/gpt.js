@@ -10,7 +10,7 @@ module.exports = {
     .addStringOption(option => option.setName('prompt').setDescription('The prompt for the Bard').setRequired(true)),
     async execute(interaction){
 
-        await interaction.reply({ content: `Bentar ya...`});
+        await interaction.reply({ content: `*Main gitar di jalan raya. Tunggu bentar yaa...*`});
 
         const { options } = interaction;
         const prompt = options.getString('prompt');
@@ -37,7 +37,7 @@ module.exports = {
         });
 
         setTimeout(async () => {
-            if (value.length == 0) return await interaction.editReply('Mager ngejawab pertanyaanmu.')
+            if (value.length == 0) return await interaction.editReply('Lagi error nih, dah lah.')
         }, 30000) //30000ms = 30s maximum puppeteer will wait.
 
         await browser.close();
@@ -47,6 +47,23 @@ module.exports = {
         .setColor("Red")
         .setDescription(`\`\`\`${value.join(`\n\n\n\n`)}\`\`\``);
 
-        await interaction.editReply({ content: '', embeds: [embed] })
+        const maxLength = 2000;
+        const stringValue = value.join('');
+        const stringChunks = [];
+
+        // We will split them if the text has >2000 chars so the bot won't get error.
+        for (let i = 0; i < stringValue.length; i += maxLength) {
+            const chunk = stringValue.substring(i, i + maxLength);
+            stringChunks.push(chunk);
+          }
+          
+          if (stringChunks.length > 0) {
+            await interaction.editReply(stringChunks[0]);
+          }
+
+          for (let i = 1; i < stringChunks.length; i++) {
+            await interaction.followUp(stringChunks[i]);
+          }
+
     }
 }
