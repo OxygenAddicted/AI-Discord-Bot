@@ -12,14 +12,14 @@ module.exports = {
 
     async execute(interaction) {
 
-        await interaction.reply({ content: `***Main gitar di jalan raya. Tunggu bentar yaa...***`});
+        await interaction.reply({ content: `Please wait a minute...`});
 
         const { options } = interaction;
         const prompt = options.getString('prompt');
 
         // Making the bot only accessible in the specific channel.
         if (interaction.channel.id !== CHANNEL_ID) {
-            return interaction.editReply('Command hanya dapat digunakan di channel #ai-space.');
+            return interaction.editReply('You can not use the bot here.');
         }
 
         let conversationLog = [
@@ -90,7 +90,7 @@ module.exports = {
             } catch (e) {
                 console.error('Error:', e);
                 return interaction.followUp({
-                    content: 'Lagi error nih, dah lah.',
+                    content: 'There was an error. Please try again later.',
                 });
             }
         } catch (error) {
