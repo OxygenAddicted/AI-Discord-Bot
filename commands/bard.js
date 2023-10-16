@@ -19,7 +19,7 @@ module.exports = {
 
         // Making the bot only accessible in the specific channel.
         if (interaction.channel.id !== CHANNEL_ID) {
-            return interaction.editReply('You can't use the bot here.');
+            return interaction.editReply('You cant use the bot here.');
         }
 
         let conversationLog = [
