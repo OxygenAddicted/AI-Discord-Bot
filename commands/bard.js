@@ -12,7 +12,7 @@ module.exports = {
 
     async execute(interaction) {
 
-        await interaction.reply({ content: `***Main gitar di jalan raya. Tunggu bentar yaa...***`});
+        await interaction.reply({ content: `Please wait a minute...`});
 
         const { options } = interaction;
         const prompt = options.getString('prompt');
@@ -90,7 +90,7 @@ module.exports = {
             } catch (e) {
                 console.error('Error:', e);
                 return interaction.followUp({
-                    content: 'Lagi error nih, dah lah.',
+                    content: 'There was an error. Please try again later.',
                 });
             }
         } catch (error) {
