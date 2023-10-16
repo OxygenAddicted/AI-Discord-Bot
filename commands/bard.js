@@ -87,7 +87,7 @@ module.exports = {
             } catch (e) {
                 console.error('Error:', e);
                 return interaction.followUp({
-                    content: 'There's an error in the API, please try again later.',
+                    content: 'There was an error getting the response, please try again later.',
                 });
             }
         } catch (error) {
