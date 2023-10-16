@@ -42,11 +42,6 @@ module.exports = {
 
         await browser.close();
 
-        value.shift();
-        const embed = new EmbedBuilder()
-        .setColor("Red")
-        .setDescription(`\`\`\`${value.join(`\n\n\n\n`)}\`\`\``);
-
         const maxLength = 2000;
         const stringValue = value.join('');
         const stringChunks = [];
