@@ -90,7 +90,7 @@ module.exports = {
             } catch (e) {
                 console.error('Error:', e);
                 return interaction.followUp({
-                    content: 'Lagi error nih, dah lah.',
+                    content: 'There was an error. Please try again later.',
                 });
             }
         } catch (error) {
