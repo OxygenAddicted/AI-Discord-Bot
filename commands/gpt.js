@@ -10,13 +10,13 @@ module.exports = {
     .addStringOption(option => option.setName('prompt').setDescription('The prompt for the ChatGPT').setRequired(true)),
     async execute(interaction){
 
-        await interaction.reply({ content: `***Main gitar di jalan raya. Tunggu bentar yaa...***`});
+        await interaction.reply({ content: `Please wait a minute...`});
 
         const { options } = interaction;
         const prompt = options.getString('prompt');
 
         if (interaction.channel.id !== CHANNEL_ID) {
-            return interaction.editReply('Command hanya dapat digunakan di channel #ai-space.');
+            return interaction.editReply('You can not use the bot here.');
         }
 
         const browser = await puppeteer.launch({ headless: 'new' });
@@ -37,7 +37,7 @@ module.exports = {
         });
 
         setTimeout(async () => {
-            if (value.length == 0) return await interaction.editReply('Lagi error nih, dah lah.')
+            if (value.length == 0) return await interaction.editReply('There was an error. Please try again later.')
         }, 30000) //30000ms = 30s maximum puppeteer will wait.
 
         await browser.close();
