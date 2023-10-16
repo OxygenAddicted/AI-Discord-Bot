@@ -10,16 +10,14 @@ module.exports = {
     .setDescription('Ask Bard a question')
     .addStringOption(option => option.setName('prompt').setDescription('The prompt for the Bard').setRequired(true)),
 
-    async execute(interaction) {        
+    async execute(interaction) {
+
         const { options } = interaction;
         const prompt = options.getString('prompt');
-        
-        if (!prompt) {
-            return interaction.reply('Please provide a valid prompt.');
-        }
 
+        // Making the bot only accessible in the specific channel.
         if (interaction.channel.id !== CHANNEL_ID) {
-            return interaction.reply('This command can only be used in the designated channel.');
+            return interaction.reply('Command hanya dapat digunakan di channel #ai-space.');
         }
 
         let conversationLog = [
@@ -79,21 +77,21 @@ module.exports = {
                 // We will split them if the text has >2000 chars so the bot won't get error.
                 const responseChunks = [];
                 for (let i = 0; i < responseData.length; i += maxLength) {
-                responseChunks.push(responseData.slice(i, i + maxLength));
+                    responseChunks.push(responseData.slice(i, i + maxLength));
                 }
 
                 for (const chunk of responseChunks) {
-                interaction.followUp(chunk);
+                    interaction.followUp(chunk);
                 }
 
             } catch (e) {
                 console.error('Error:', e);
                 return interaction.followUp({
-                content: 'There was an issue getting that AI response. Try again later',
+                    content: 'Mager ngejawab pertanyaanmu.',
                 });
             }
         } catch (error) {
-        console.error("Error:", error);
+            console.error("Error:", error);
         }
     }
 }
