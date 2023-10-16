@@ -12,7 +12,7 @@ module.exports = {
 
     async execute(interaction) {
 
-        await interaction.reply({ content: `*Main gitar di jalan raya. Tunggu bentar yaa...*`});
+        await interaction.reply({ content: `***Main gitar di jalan raya. Tunggu bentar yaa...***`});
 
         const { options } = interaction;
         const prompt = options.getString('prompt');

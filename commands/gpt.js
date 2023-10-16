@@ -10,7 +10,7 @@ module.exports = {
     .addStringOption(option => option.setName('prompt').setDescription('The prompt for the Bard').setRequired(true)),
     async execute(interaction){
 
-        await interaction.reply({ content: `*Main gitar di jalan raya. Tunggu bentar yaa...*`});
+        await interaction.reply({ content: `***Main gitar di jalan raya. Tunggu bentar yaa...***`});
 
         const { options } = interaction;
         const prompt = options.getString('prompt');
