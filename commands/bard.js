@@ -19,7 +19,7 @@ module.exports = {
 
         // Making the bot only accessible in the specific channel.
         if (interaction.channel.id !== CHANNEL_ID) {
-            return interaction.editReply('Command hanya dapat digunakan di channel #ai-space.');
+            return interaction.editReply('You can't use the bot here.');
         }
 
         let conversationLog = [
