@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('discord.js');
 require('dotenv').config()
 const axios = require('axios');
 
-const CHANNEL_ID = process.env.CHANNEL_ID;
+const CHANNEL_ID = process.env['CHANNEL_ID'];
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -10,10 +10,7 @@ module.exports = {
     .setDescription('Ask Bard a question')
     .addStringOption(option => option.setName('prompt').setDescription('The prompt for the Bard').setRequired(true)),
 
-    async execute(interaction) {
-
-        //await interaction.reply({ content: `Mager banget ngejawab pertanyaanmu...`, ephemeral: true });
-        
+    async execute(interaction) {        
         const { options } = interaction;
         const prompt = options.getString('prompt');
         
@@ -32,6 +29,7 @@ module.exports = {
         await interaction.deferReply();
 
         try {
+            // Make the bot read previous message in the channel up to the limit.
             const prevMessages = await interaction.channel.messages.fetch({ limit: 15 });
 
             prevMessages.forEach((msg) => {
@@ -57,9 +55,10 @@ module.exports = {
                 }
             });
 
+            // Cleaning the text from emoji.
             const sanitizedMessage = prompt.replace(/[\uD800-\uDFFF]./g, '');
-            console.log = sanitizedMessage;
 
+            // Handling the AI response.
             const input = {
                 method: "GET",
                 url: "https://google-bard1.p.rapidapi.com/",
@@ -70,14 +69,14 @@ module.exports = {
                 "X-RapidAPI-Key": process.env['API_KEY'],
                 "X-RapidAPI-Host": "google-bard1.p.rapidapi.com",
                 },
-                maxBodyLength: 2000,
             };
 
             try {
                 const output = await axios.request(input);
                 const responseData = output.data.response;
-                const maxLength = 2000;
+                const maxLength = 2000; // Discord has 2000 chars limit in a bubble.
 
+                // We will split them if the text has >2000 chars so the bot won't get error.
                 const responseChunks = [];
                 for (let i = 0; i < responseData.length; i += maxLength) {
                 responseChunks.push(responseData.slice(i, i + maxLength));

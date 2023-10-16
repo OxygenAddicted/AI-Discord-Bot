@@ -13,6 +13,8 @@ const client = new Client({ intents: [IntentsBitField.Flags.Guilds] });
 const commands = [];
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
+
+// Importing the commands files in the "commands" folder
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
     commands.push(command.data.toJSON());
